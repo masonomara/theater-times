@@ -1,0 +1,2 @@
+- `app/types/database.ts` as the single source of truth
+- no type is defnined elsewhere in the codebase - no `as SomeType[]`, if you need a cast, fix the schema and regenerate
