@@ -17,16 +17,16 @@ export default async function HomePage() {
   const clearWithTheater = clearSchedule.bind(null, theater!.id)
 
   return (
-    <main>
-      <header>
+    <main className="page">
+      <header className="page-header">
         <h1>{theater?.name ?? 'Theater Times'}</h1>
-        <div>
-          <a href="/upload">Upload new drop</a>
-          <form action={clearWithTheater} style={{ display: 'inline' }}>
-            <button type="submit">Clear schedule</button>
+        <div className="header-actions">
+          <a href="/upload" className="btn btn-primary">Upload new drop</a>
+          <form action={clearWithTheater}>
+            <button type="submit" className="btn btn-ghost">Clear schedule</button>
           </form>
-          <form action={signOut} style={{ display: 'inline' }}>
-            <button type="submit">Sign out</button>
+          <form action={signOut}>
+            <button type="submit" className="btn btn-ghost">Sign out</button>
           </form>
         </div>
       </header>

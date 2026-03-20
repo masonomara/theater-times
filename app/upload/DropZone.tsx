@@ -11,7 +11,6 @@ export default function DropZone({ error }: { error?: string }) {
 
   function applyFile(f: File) {
     if (!f.name.endsWith('.csv')) return
-    // Set file onto the hidden input so FormData picks it up on submit
     const dt = new DataTransfer()
     dt.items.add(f)
     if (inputRef.current) inputRef.current.files = dt.files
@@ -42,38 +41,29 @@ export default function DropZone({ error }: { error?: string }) {
 
   return (
     <form ref={formRef} action={createImport}>
-      {/* Drag-and-drop target */}
       <div
+        className="dropzone"
+        data-dragging={isDragging.toString()}
         onClick={() => inputRef.current?.click()}
         onDragOver={onDragOver}
         onDragLeave={onDragLeave}
         onDrop={onDrop}
-        style={{
-          border: `2px dashed ${isDragging ? '#000' : '#aaa'}`,
-          borderRadius: 8,
-          padding: '3rem 2rem',
-          textAlign: 'center',
-          cursor: 'pointer',
-          background: isDragging ? '#f5f5f5' : 'transparent',
-          transition: 'background 0.15s, border-color 0.15s',
-        }}
       >
         {file ? (
           <>
-            <p style={{ fontWeight: 600 }}>{file.name}</p>
-            <p style={{ color: '#666', fontSize: 14 }}>
+            <p className="dropzone-title">{file.name}</p>
+            <p className="dropzone-sub">
               {(file.size / 1024).toFixed(1)} KB — click or drop to replace
             </p>
           </>
         ) : (
           <>
-            <p style={{ fontWeight: 600 }}>Drop a CSV file here</p>
-            <p style={{ color: '#666', fontSize: 14 }}>or click to browse</p>
+            <p className="dropzone-title">Drop a CSV file here</p>
+            <p className="dropzone-sub">or click to browse</p>
           </>
         )}
       </div>
 
-      {/* Hidden input — name="file" is what the server action reads */}
       <input
         ref={inputRef}
         type="file"
@@ -84,9 +74,13 @@ export default function DropZone({ error }: { error?: string }) {
         style={{ display: 'none' }}
       />
 
-      {error && <p role="alert" style={{ color: 'red' }}>{decodeURIComponent(error)}</p>}
+      {error && (
+        <p className="alert-error" role="alert" style={{ marginBottom: '0.75rem' }}>
+          {decodeURIComponent(error)}
+        </p>
+      )}
 
-      <button type="submit" disabled={!file}>
+      <button type="submit" className="btn btn-primary" disabled={!file}>
         Upload and preview
       </button>
     </form>

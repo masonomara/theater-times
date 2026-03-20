@@ -8,10 +8,12 @@ export default async function UploadPage({
   const { error } = await searchParams
 
   return (
-    <main>
-      <a href="/">← Back</a>
-      <h1>Upload Partner Drop</h1>
-      <DropZone error={error} />
+    <main className="page">
+      <a href="/" className="back-link">← Back</a>
+      <div className="upload-content">
+        <h1>Upload Partner Drop</h1>
+        <DropZone error={error} />
+      </div>
     </main>
   )
 }

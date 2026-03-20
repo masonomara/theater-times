@@ -21,7 +21,6 @@ export default async function PreviewPage({
     .eq('id', id)
     .single()
 
-  // Redirect if the import isn't in a previewable state
   if (!importRecord || importRecord.status !== 'previewing') redirect('/')
 
   const { data: rows } = await supabase
@@ -31,7 +30,6 @@ export default async function PreviewPage({
     .eq('is_duplicate', false)
     .order('row_index')
 
-  // Fetch showtimes for update/archive rows (needed to show old values)
   const showtimeIds = (rows ?? [])
     .filter(r => r.showtime_id)
     .map(r => r.showtime_id!)
@@ -47,15 +45,15 @@ export default async function PreviewPage({
     showtime: r.showtime_id ? (showtimeMap[r.showtime_id] ?? null) : null,
   }))
 
-  const adds    = rowsWithShowtimes.filter(r => r.action === 'add')
-  const updates = rowsWithShowtimes.filter(r => r.action === 'update')
+  const adds     = rowsWithShowtimes.filter(r => r.action === 'add')
+  const updates  = rowsWithShowtimes.filter(r => r.action === 'update')
   const archives = rowsWithShowtimes.filter(r => r.action === 'archive')
 
   return (
-    <main>
-      <a href="/">← Back</a>
-      <h1>Preview changes</h1>
-      <p>{importRecord.filename}</p>
+    <main className="page">
+      <a href="/" className="back-link">← Back</a>
+      <h1 className="page-title">Preview changes</h1>
+      <p className="page-subtitle">{importRecord.filename}</p>
       <PreviewClient
         importId={id}
         adds={adds}
